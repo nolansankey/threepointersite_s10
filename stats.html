@@ -1,0 +1,202 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <title>Three Pointer League</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width", initial-scale="1">
+    
+    <!-- Keywords used in the website -->
+    <meta name="keywords" content="Three Pointer League, Three Pointer, Nolan Sankey">
+    
+    <!-- Description for Website -->
+    <meta name="description" content="The official website for Three Pointer League">
+    
+    <!-- Bootstrap.css -->
+    <link type="text/css" rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+    <!-- Custom styling -->
+    <link type="text/css" rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      
+  </head>
+    
+  <!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+  <body id="page-top" data-spy="scroll" data-target=".navbar fixed-top">
+    <nav class="navbar navbar-fixed-top" role="navigation">
+      <div class="header">
+        <div class="header-text">
+          <h1><strong>3PL</strong></h1>
+          <p id="user-note"></p>
+        </div>
+      </div>
+      <div class="mobile-nav-button">
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <p><i>Menu</i></p>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul id="nav" class="nav navbar-nav">
+          <li><a href="home.html">Home</a>
+          <li><a href="picks.html">Full Picks</a></li>
+          <li><a><strong>Statistics</strong></a></li>
+          <li><a href="payouts.html">Payouts</a></li>
+          <li><a href="rules.html">Rules</a></li>
+          <li><a href="history.html">History</a></li>
+          <li><a href="javascript:void(0);" onclick="logout()">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Week Stats Section -->
+    <section id="weeks-stats-section" class="weeks-stats-section">
+      <h1 class="shrink-text-lg">This Week's Stats:</h1>
+      <table id="weeks-stats-table">
+        <thead>
+          <tr>
+            <th scope="col" class="std_col">Player</th>
+            <th scope="col" class="std_col">Days Played</th>
+            <th scope="col" class="std_col">Three Pointers</th>
+            <th scope="col" class="std_col">Correct Picks</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <br>
+    </section>
+      
+    <!-- Season Stats Section -->
+    <section id="season-stats-section" class="season-stats-section">
+      <h1 class="shrink-text-lg">Season Stats:</h1>
+      <table id="season-stats-table">
+        <thead>
+          <tr>
+            <th scope="col" class="std_col">Player</th>
+            <th scope="col" class="std_col">Days Played</th>
+            <th scope="col" class="std_col">Three Pointers</th>
+            <th scope="col" class="std_col">Correct Picks</th>
+            <th scope="col" class="std_col">Pick Accuracy</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <br>
+      <p class="shrink-text">* not in the running for lucky loser if missed >4 days</p>
+    </section>
+  </body>
+</html>
+
+<script>
+    var is_logged_in = localStorage.getItem("logged-in");
+    var curr_user = localStorage.getItem("user");
+    document.getElementById("user-note").innerHTML = curr_user;
+    if(!is_logged_in){
+        window.location.replace("index.html");
+    }
+    function logout(){
+        localStorage.clear();
+        window.location.replace("index.html");
+    }
+</script>
+
+<script>
+    const statsSheetLink = "https://sheets.googleapis.com/v4/spreadsheets/1KxdOrYqK66Jv8Eise2JsgHf9wb0PpId5MdczF1CnSRM/values/Statistics/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
+    stats_data_fetch();
+    
+    async function stats_data_fetch(){
+        let stats_data = await fetch(statsSheetLink)    
+          .then((response) => response.json());
+        var table = document.getElementById("weeks-stats-table");
+        var curr_user = localStorage.getItem("user");
+        var num_players = 43;
+        for (let i = 0; i < num_players; i++) {
+            var player = stats_data.values[i+3][2];
+            var row_add = i+1
+            if (player==curr_user){
+                var row_add = 1
+            }
+            var row = table.insertRow(row_add);
+            var cell1 = row.insertCell(0);
+            cell1.innerHTML = stats_data.values[i+3][2];
+            var cell2 = row.insertCell(1);
+            cell2.innerHTML = stats_data.values[i+3][4];
+            var cell3 = row.insertCell(2);
+            cell3.innerHTML = stats_data.values[i+3][5];
+            var cell4 = row.insertCell(3);
+            cell4.innerHTML = stats_data.values[i+3][6];
+            //var cell5 = row.insertCell(4);
+            //cell5.innerHTML = stats_data.values[i+3][14];    
+            if (player==curr_user){
+                cell1.classList.add("user-cell");
+                cell2.classList.add("user-cell");
+                cell3.classList.add("user-cell");
+                cell4.classList.add("user-cell");
+                //cell5.classList.add("user-cell");
+            }
+            if (stats_data.values[i+3][16]=="!"){
+                cell3.classList.add("green_border");
+            }
+            if (stats_data.values[i+3][17]=="!"){
+                cell4.classList.add("green_border");
+            }
+        }
+        
+        var table = document.getElementById("season-stats-table");
+        for (let i = 0; i < num_players; i++) {
+            var player = stats_data.values[i+3][2];
+            var row_add = i+1
+            if (player==curr_user){
+                var row_add = 1
+            }
+            var row = table.insertRow(row_add);
+            var cell1 = row.insertCell(0);
+            cell1.innerHTML = stats_data.values[i+3][2];
+            var cell2 = row.insertCell(1);
+            cell2.innerHTML = stats_data.values[i+3][10];
+            var cell3 = row.insertCell(2);
+            cell3.innerHTML = stats_data.values[i+3][11];
+            var cell4 = row.insertCell(3);
+            cell4.innerHTML = stats_data.values[i+3][12];
+            var cell5 = row.insertCell(4);
+            var percent = stats_data.values[i+3][14];
+            if (stats_data.values[i+3][22]=="x"){
+                percent = percent+" *";
+            }   
+            cell5.innerHTML = percent; 
+            if (player==curr_user){
+                cell1.classList.add("user-cell");
+                cell2.classList.add("user-cell");
+                cell3.classList.add("user-cell");
+                cell4.classList.add("user-cell");
+                cell5.classList.add("user-cell");
+            }
+            if (stats_data.values[i+3][18]=="!"){
+                cell3.classList.add("green_border");
+            }
+            if (stats_data.values[i+3][19]=="!"){
+                cell4.classList.add("green_border");
+            }
+            if (stats_data.values[i+3][20]=="!"){
+                cell5.classList.add("green_border");
+            }
+            if (stats_data.values[i+3][23]=="-"){
+                cell5.classList.add("red_border");
+            }
+        }
+    }   
+    
+</script>
+
+<script>
+    if (window.innerWidth < 766) {
+        document.getElementById("nav").style.display = "none";
+    }
+    function myFunction() {
+        var x = document.getElementById("nav");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+        }
+    }
+</script>

@@ -1,0 +1,91 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <title>Three Pointer League</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width", initial-scale="1">
+    
+    <!-- Keywords used in the website -->
+    <meta name="keywords" content="Three Pointer League, Three Pointer, Nolan Sankey">
+    
+    <!-- Description for Website -->
+    <meta name="description" content="The official website for Three Pointer League">
+    
+    <!-- Bootstrap.css -->
+    <link type="text/css" rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+    <!-- Custom styling -->
+    <link type="text/css" rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      
+  </head>
+    
+  <!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+  <body id="page-top" data-spy="scroll" data-target=".navbar fixed-top">
+    <nav class="navbar navbar-fixed-top" role="navigation">
+      <div class="header">
+        <div class="header-text">
+          <h1><strong>3PL</strong></h1>
+          <p id="user-note"></p>
+        </div>
+      </div>
+      <div class="mobile-nav-button">
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <p><i>Menu</i></p>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul id="nav" class="nav navbar-nav">
+          <li><a href="home.html">Home</a>
+          <li><a href="picks.html">Full Picks</a></li>
+          <li><a href="stats.html">Statistics</a></li>
+          <li><a href="payouts.html">Payouts</a></li>
+          <li><a><strong>Rules</strong></a></li>
+          <li><a href="history.html">History</a></li>
+          <li><a href="javascript:void(0);" onclick="logout()">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+
+     <!-- Rules Section -->
+    <section id="rules" class="rules-section">
+      <div class="content-text">
+        <h1>Three Pointer Rules:</h1>
+        <br>
+        <p>There are 3 questions per day. Each question you get correct is worth 1 point, and if you get all 3 that is a 3 pointer and you get 3 extra points.</p>
+        <p>You must answer by game time, or else your pick will not be counted.</p>
+        <p><strong>Opt Out</strong> - <i>ONCE PER WEEK</i> you may opt out of a question and it will be counted as correct (not required to use)</p>
+        <p>***Questions are subject to change***</p>
+      </div>
+    </section>
+      
+  </body>
+</html>
+
+<script>
+    var is_logged_in = localStorage.getItem("logged-in");
+    var curr_user = localStorage.getItem("user");
+    document.getElementById("user-note").innerHTML = curr_user;
+    if(!is_logged_in){
+        window.location.replace("index.html");
+    }
+    function logout(){
+        localStorage.clear();
+        window.location.replace("index.html");
+    }
+</script>
+
+<script>
+    if (window.innerWidth < 766) {
+        document.getElementById("nav").style.display = "none";
+    }
+    function myFunction() {
+        var x = document.getElementById("nav");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+        }
+    }
+</script>
