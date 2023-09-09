@@ -132,13 +132,13 @@
         var threes_row = table.insertRow(10*season_weeks+1);
         var ll_row = table.insertRow(10*season_weeks+2);
         var season_cell = threes_row.insertCell(0);
-        season_cell.innerHTML = payouts_data.values[3*season_weeks+3][1];
+        season_cell.innerHTML = payouts_data.values[places*season_weeks+3][1];
         season_cell.rowSpan = "2";
         for (let j = 0; j < 3; j++) {
             var cella = threes_row.insertCell(1+j);
-            cella.innerHTML = payouts_data.values[3*season_weeks+3][2+j];
+            cella.innerHTML = payouts_data.values[places*season_weeks+3][2+j];
             var cellb = ll_row.insertCell(j);
-            cellb.innerHTML = payouts_data.values[3*season_weeks+4][2+j];
+            cellb.innerHTML = payouts_data.values[places*season_weeks+4][2+j];
         }      
     }   
     
