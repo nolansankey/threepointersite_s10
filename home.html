@@ -59,7 +59,7 @@
     <section id="todays-picks" class="todays-picks-section">
       <h1 id="test_id">Today's Questions</h1>
       <div id="yet-to-pick">
-        <form method="POST" action="https://script.google.com/macros/s/AKfycbxKOF5QbOZxXKc0Q4wfrHME3sItP54USDpBQaYSkofWxw98j5wXpHSz7k73lgRr1iul5g/exec" id="picks-form">
+        <form method="POST" action="https://script.google.com/macros/s/AKfycbzIRNQF07zK8UapaBv4sCwSlRGsgVMhIx-vv12Ne6-FRBXLUr21wBQlrS6j3-C9s-y3GQ/exec" id="picks-form">
           
           <h3 id="q1_text">Question Error</h3>
           <h4><a id="q1_link_1" href="javascript:void(0);" onclick="link_error()" rel="noopener noreferrer">(ESPN page)</a></h4>
@@ -114,7 +114,7 @@
         <p id="completed_q3_pick"></p>
         <br>
         <br>
-        <form method="POST" action="https://script.google.com/macros/s/AKfycbxKOF5QbOZxXKc0Q4wfrHME3sItP54USDpBQaYSkofWxw98j5wXpHSz7k73lgRr1iul5g/exec" id="clear-form">
+        <form method="POST" action="https://script.google.com/macros/s/AKfycbzIRNQF07zK8UapaBv4sCwSlRGsgVMhIx-vv12Ne6-FRBXLUr21wBQlrS6j3-C9s-y3GQ/exec" id="clear-form">
           <input type="submit" id="clear-pick-submit" name="clear" value="Clear My Picks and Resubmit">
         </form>
       </div>
@@ -387,7 +387,7 @@
         
         let this_picks_data = await fetch(thisWeekSheetLink)    
           .then((response) => response.json());
-        var num_players = 43;
+        var num_players = 35;
         var curr_user = localStorage.getItem("user");
         for (let i = 0; i < num_players; i++) {
             var player = this_picks_data.values[3][5+i*3];
