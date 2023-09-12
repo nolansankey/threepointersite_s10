@@ -268,6 +268,8 @@
     let q2_fetch = "Question Error 2";
     let q3_fetch = "Question Error 2";
     var right_now = Date.now();
+    let east_datetime_str = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+    let date_east = new Date(east_datetime_str);
     questions_data_fetch();
     
     async function questions_data_fetch(){
@@ -307,7 +309,7 @@
         
         q1_time_fetch = sheet_data.values[29][2];
         q1_time_fetch_num = Date.parse(q1_time_fetch);
-        if(right_now >= q1_time_fetch_num){
+        if(date_east >= q1_time_fetch_num){
             document.getElementById("q1_yes").setAttribute("value","late");
             document.getElementById("q1_yes").setAttribute("checked","chedked");
             document.getElementById("q1_yes_label").innerHTML = "LATE ("+q1_time_fetch+" Eastern)";
@@ -318,7 +320,7 @@
         }
         q2_time_fetch = sheet_data.values[30][2];
         q2_time_fetch_num = Date.parse(q2_time_fetch);
-        if(right_now >= q2_time_fetch_num){
+        if(date_east >= q2_time_fetch_num){
             document.getElementById("q2_yes").setAttribute("value","late");
             document.getElementById("q2_yes").setAttribute("checked","chedked");
             document.getElementById("q2_yes_label").innerHTML = "LATE ("+q2_time_fetch+" Eastern)";
@@ -329,7 +331,7 @@
         }
         q3_time_fetch = sheet_data.values[31][2];
         q3_time_fetch_num = Date.parse(q3_time_fetch);
-        if(right_now >= q3_time_fetch_num){
+        if(date_east >= q3_time_fetch_num){
             document.getElementById("q3_yes").setAttribute("value","late");
             document.getElementById("q3_yes").setAttribute("checked","chedked");
             document.getElementById("q3_yes_label").innerHTML = "LATE ("+q3_time_fetch+" Eastern)";
@@ -387,7 +389,7 @@
         
         let this_picks_data = await fetch(thisWeekSheetLink)    
           .then((response) => response.json());
-        var num_players = 35;
+        var num_players = 36;
         var curr_user = localStorage.getItem("user");
         for (let i = 0; i < num_players; i++) {
             var player = this_picks_data.values[3][5+i*3];
