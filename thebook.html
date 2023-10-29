@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SBL</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width"
+            ,
+            initial-scale="1" />
+
+        <!-- Keywords used in the website -->
+        <meta
+            name="keywords"
+            content="Sports Betting League, SBL, Nolan Sankey" />
+
+        <!-- Description for Website -->
+        <meta name="description" content="The official website for SBL" />
+
+        <!-- Bootstrap.css -->
+        <link
+            type="text/css"
+            rel="stylesheet"
+            href="assets/css/bootstrap.min.css" />
+
+        <!-- Custom styling -->
+        <link type="text/css" rel="stylesheet" href="assets/css/style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    </head>
+
+    <!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+    <body id="page-top" data-spy="scroll" data-target=".navbar fixed-top">
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <div class="header">
+                <div class="header-text">
+                    <h1><strong>SBL</strong></h1>
+                    <p id="user-note"></p>
+                </div>
+            </div>
+            <div class="mobile-nav-button">
+                <a
+                    href="javascript:void(0);"
+                    class="icon"
+                    onclick="myFunction()">
+                    <p><i>Menu</i></p>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul id="nav" class="nav navbar-nav">
+                    <li><a href="home.html">Home</a></li>
+                    <li>
+                        <a><strong>The Book</strong></a>
+                    </li>
+                    <li><a href="league.html">League</a></li>
+                    <li><a href="rules.html">Rules</a></li>
+                    <li>
+                        <a href="javascript:void(0);" onclick="logout()"
+                            >Logout</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- THE BOOK Intro Section -->
+        <section id="the-book-intro" class="the-book-intro-section">
+            <h1 class="shrink-text-lg"><strong>THE BOOK</strong></h1>
+            <br/>
+            <h3 id="earned-balance">Earned Balance: </h3>
+            <h3 id="granted-balance">Granted Balance: </h3>
+            <h3 id="on-the-line">On the Line: </h3>
+            <br>
+        </section>
+        
+        <!-- Betslip Section -->
+        <section id="betslip" class="betslip-section">
+            <div id="bets-listed">
+              <h3><strong>Betslip</strong></h3>
+            </div>
+            <div>
+                <label id="bet-summary"></label><input type="text" id="wager-typed" class="input-box" size="3" required /><label>&nbsp;points</label><br>
+              <button onclick="calcPayout()"> Calculate </button>
+            </div>
+            <div id="place-bet">
+              <h3 id="bet-payout"></h3>
+              <form method="POST" id="bet-form" action="https://script.google.com/macros/s/AKfycbxZ7cZOEBALz4jEcPOGMCAy1G8HAO9CGwTb8kjdOSiZvbyke6ihX1QPQAFF11ab1sE-SQ/exec">
+                <div id=balance-type-div>
+                  <input type="radio" id="granted" name="BalanceType" value="Granted" required>
+                  <label id="gb-radio" for="granted">Granted Balance</label><br>
+                  <input type="radio" id="earned" name="BalanceType" value="Earned">
+                  <label id="eb-radio" for="earned">Earned Balance</label><br>
+                </div> 
+                <label id= "MIC-text" for="make-it-count">Make it count? </label>
+                <input type="checkbox" id="make-it-count" name="make-it-count" value="MIC">
+                <p id="balance-error"></p>
+                <input type="submit" id="place-bet-submit" value="Place Bet">
+              </form>
+            </div>
+            <br>
+        </section>
+
+        <!-- League Selector -->
+        <section id="league-selector" class="league-selector-section">
+            <h3>League Navigator:</h3>
+            <form>
+                <select name="league-select" id="league-select">
+                    <option value="NHL">NHL</option>
+                    <option value="NFL">NFL</option>
+                    <option value="NCAAFB">NCAAFB</option>
+                    <option value="NBA">NBA</option>
+                    <option value="MLB">MLB</option>
+                </select>
+                <br />
+                <button onclick="getOdds()"> Get Odds </button>
+                <br/>
+                <p id="test"></p>
+                <br>
+            </form>
+        </section>
+
+        <!-- Odds Section -->
+        <section id="odds" class="odds-section">
+            <form>
+                <table id="odds-table">
+                    <thead>
+                        <tr>
+                          <th>Date/Time</th>
+                          <th>Matchup</th>
+                          <th id="odds-type-1">O1</th>
+                          <th id="odds-type-2">O2</th>
+                          <th id="odds-type-3">O3</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </form>
+        </section>
+    </body>
+
+    <script>
+        var is_logged_in = localStorage.getItem("logged-in");
+        var curr_user = localStorage.getItem("user");
+        document.getElementById("user-note").innerHTML = curr_user;
+        if (!is_logged_in) {
+            window.location.replace("index.html");
+        function logout() {
+            localStorage.clear();
+            window.location.replace("index.html");
+        }
+    </script>
+
+    <script>
+        
+        const balanceLink = "https://sheets.googleapis.com/v4/spreadsheets/18P7-NHQmX6N4_lQLKEbpSZp1SbEKF0hQItTcCXvLSCw/values/Balance Scoresheet/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
+        balance_fetch();
+        
+        var users_start_idx = 7;
+        var user_granted_balance_num_idx = 3;
+        var user_granted_balance_idx = 4;
+        var user_earned_balance_idx = 5;
+        var user_in_play_idx = 6;
+        var granted_balance_num;
+        var earned_balance_num;
+        
+         async function balance_fetch() {
+            let balance_data = await fetch(balanceLink)    
+                .then((response) => response.json());
+            var num_players = balance_data.values[1][1];
+            var user_idx = -3;
+            for (let i = 0; i < num_players; i++) {
+                if(balance_data.values[users_start_idx+i][1]==curr_user){
+                    user_idx = i;
+                }
+            }
+            if (user_idx>-1){
+                var user_earned_balance = balance_data.values[users_start_idx+user_idx][user_earned_balance_idx];
+                earned_balance_num = Number(user_earned_balance);
+                document.getElementById("earned-balance").innerHTML = "Earned Balance: "+user_earned_balance;
+                document.getElementById("eb-radio").innerHTML = "Earned Balance: "+user_earned_balance;
+                var user_granted_balance = balance_data.values[users_start_idx+user_idx][user_granted_balance_idx];
+                document.getElementById("granted-balance").innerHTML = "Granteded Balance: "+user_granted_balance;
+                document.getElementById("gb-radio").innerHTML = "Granted Balance: "+user_granted_balance;
+                granted_balance_num = Number(balance_data.values[users_start_idx+user_idx][user_granted_balance_num_idx]);
+                var user_in_play = balance_data.values[users_start_idx+user_idx][user_in_play_idx];
+                document.getElementById("on-the-line").innerHTML = "On the Line: "+user_in_play;
+            }
+         }
+        
+        var oddsLink = "X";
+        const theBookLink1 = "https://sheets.googleapis.com/v4/spreadsheets/1AGkxcDNLJ8Cn8vaa9xoeuRwgrLMwx-u2yuCgkAvW5Ck/values/";
+        const theBookLink2 = "/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
+        
+        function getOdds() {
+            event.preventDefault();
+            league_req = document.getElementById("league-select").value;
+            showTable();
+            clearTable();
+            oddsLink = theBookLink1+league_req+theBookLink2;
+            odds_data_fetch();
+	    }
+    
+        async function odds_data_fetch() {
+            let odds_data = await fetch(oddsLink)    
+                .then((response) => response.json());
+            var num_items = odds_data.values[2][1];
+            var table = document.getElementById("odds-table");
+            var curr_user = localStorage.getItem("user");
+            var odd_type_1 = odds_data.values[4][6];
+            var odd_type_2 = odds_data.values[4][7];
+            var odd_type_3 = odds_data.values[4][8];
+            document.getElementById("odds-type-1").innerHTML = odd_type_1;
+            document.getElementById("odds-type-2").innerHTML = odd_type_2;
+            document.getElementById("odds-type-3").innerHTML = odd_type_3;
+            for (let i = 0; i < num_items/2; i++) {
+                var timestamp = odds_data.values[5 + i*2][1];
+                var row1 = table.insertRow(i*2+1);
+                var row2 = table.insertRow(i*2+2);
+                var time_cell = row1.insertCell(0);
+                time_cell.innerHTML = timestamp;
+                time_cell.rowSpan = 2;
+                var team1 = odds_data.values[5 + i*2][4];
+                var o1_1 = odds_data.values[5 + i*2][6];
+                var o2_1 = odds_data.values[5 + i*2][7];
+                var o3_1 = odds_data.values[5 + i*2][8];
+                var o1_1w = odds_data.values[5 + i*2][9];
+                var o2_1w = odds_data.values[5 + i*2][10];
+                var o3_1w = odds_data.values[5 + i*2][11];
+                var team2 = odds_data.values[6 + i*2][4];
+                var o1_2 = odds_data.values[6 + i*2][6];
+                var o2_2 = odds_data.values[6 + i*2][7];
+                var o3_2 = odds_data.values[6 + i*2][8];
+                var o1_2w = odds_data.values[6 + i*2][9];
+                var o2_2w = odds_data.values[6 + i*2][10];
+                var o3_2w = odds_data.values[6 + i*2][11];
+                var cell2_1 = row1.insertCell(1);
+                cell2_1.innerHTML = team1;
+                var cell3_1 = row1.insertCell(2);
+                cell3_1.id = league_req+"_"+odd_type_1+"_1_"+i;
+                if (o1_1=="In Play" || o1_1=="TBD"){
+                    cell3_1.innerHTML = o1_1;
+                }
+                else {
+                    const newButton11 = document.createElement('button');
+                    newButton11.textContent = o1_1;
+                    newButton11.addEventListener("click", addToSlip, false);
+                    newButton11.betType = document.getElementById("odds-type-1").innerText;
+                    newButton11.nameParam = team1+" "+o1_1;
+                    newButton11.valueParam = o1_1w;
+                    newButton11.matchupId = i;
+                    newButton11.startTime = timestamp;
+                    cell3_1.appendChild(newButton11);
+                }    
+                var cell4_1 = row1.insertCell(3);
+                cell4_1.id = league_req+"_"+odd_type_2+"_1_"+i;
+                if (o2_1=="In Play" || o2_1=="TBD"){
+                    cell4_1.innerHTML = o2_1;
+                }
+                else {
+                    const newButton12 = document.createElement('button');
+                    newButton12.textContent = o2_1;
+                    newButton12.addEventListener("click", addToSlip, false);
+                    newButton12.betType = document.getElementById("odds-type-2").innerText;
+                    newButton12.nameParam = team1+"/"+team2+" "+o2_1;
+                    newButton12.valueParam = o2_1w;
+                    newButton12.matchupId = i;
+                    newButton12.startTime = timestamp;
+                    cell4_1.appendChild(newButton12);
+                }
+                var cell5_1 = row1.insertCell(4);
+                cell5_1.id = league_req+"_"+odd_type_3+"_1_"+i;
+                if (o3_1=="In Play" || o3_1=="TBD"){
+                    cell5_1.innerHTML = o3_1;
+                }
+                else {
+                    const newButton13 = document.createElement('button');
+                    newButton13.textContent = o3_1;
+                    newButton13.addEventListener("click", addToSlip, false);
+                    newButton13.betType = document.getElementById("odds-type-3").innerText;
+                    newButton13.nameParam = team1+" "+o3_1;
+                    newButton13.valueParam = o3_1w;
+                    newButton13.matchupId = i;
+                    newButton13.startTime = timestamp;
+                    cell5_1.appendChild(newButton13);
+                }
+                
+                
+                var cell2_2 = row2.insertCell(0);
+                cell2_2.innerHTML = team2;
+                var cell3_2 = row2.insertCell(1);
+                cell3_2.id = league_req+"_"+odd_type_1+"_2_"+i;
+                if (o1_2=="In Play" || o1_2=="TBD"){
+                    cell3_2.innerHTML = o1_2;
+                }
+                else {
+                    const newButton21 = document.createElement('button');
+                    newButton21.textContent = o1_2;
+                    newButton21.addEventListener("click", addToSlip, false);
+                    newButton21.betType = document.getElementById("odds-type-1").innerText;
+                    newButton21.nameParam = team2+" "+o1_2;
+                    newButton21.valueParam = o1_2w;
+                    newButton21.matchupId = i;
+                    newButton21.startTime = timestamp;
+                    cell3_2.appendChild(newButton21);
+                }
+                var cell4_2 = row2.insertCell(2);
+                cell4_2.id = league_req+"_"+odd_type_2+"_2_"+i;
+                if (o2_2=="In Play" || o2_2=="TBD"){
+                    cell4_2.innerHTML = o2_2;
+                }
+                else {
+                    const newButton22 = document.createElement('button');
+                    newButton22.textContent = o2_2;
+                    newButton22.addEventListener("click", addToSlip, false);
+                    newButton22.betType = document.getElementById("odds-type-2").innerText;
+                    newButton22.nameParam = team1+"/"+team2+" "+o2_2;
+                    newButton22.valueParam = o2_2w;
+                    newButton22.matchupId = i;
+                    newButton22.startTime = timestamp;
+                    cell4_2.appendChild(newButton22);
+                }
+                var cell5_2 = row2.insertCell(3);
+                cell5_2.id = league_req+"_"+odd_type_3+"_2_"+i;
+                if (o3_2=="In Play" || o3_2=="TBD"){
+                    cell5_2.innerHTML = o3_2;
+                }
+                else {
+                    const newButton23 = document.createElement('button');
+                newButton23.textContent = o3_2;
+                newButton23.addEventListener("click", addToSlip, false);
+                newButton23.betType = document.getElementById("odds-type-3").innerText;
+                newButton23.nameParam = team2+" "+o3_2;
+                newButton23.valueParam = o3_2w;
+                newButton23.matchupId = i;
+                newButton23.startTime = timestamp;
+                cell5_2.appendChild(newButton23);
+                }
+            }
+        
+        }
+        
+
+        document.getElementById("odds-table").style.display = 'none';
+        function showTable(){
+            document.getElementById("odds-table").style.display = 'block';
+
+        }
+        
+        function clearTable(){
+            var myTable = document.getElementById("odds-table");
+            var rowCount = myTable.rows.length;
+            for (var x=rowCount-1; x>0; x--) {
+                myTable.deleteRow(x);
+            }
+        }
+        
+        var bets = 0;
+        var bets_arr = [];
+        var cant_pick = [];
+        var bet_1_W = 1;
+        document.getElementById("betslip").style.display = 'none';
+        
+        function addToSlip(evt){
+            event.preventDefault();
+            if(bets==0){
+                document.getElementById("betslip").style.display = 'block';
+                document.getElementById("place-bet").style.display = 'none';
+                document.getElementById("bet-summary").innerHTML = "<i>Straight Bet - Wager: </i>&nbsp;";
+            }
+            else {
+                document.getElementById("bet-summary").innerHTML = "<i>Parlay - Wager: </i>&nbsp;";
+            }
+            const new_bet = document.createElement('h3');
+            betType = evt.currentTarget.betType;
+            nameParam = evt.currentTarget.nameParam;
+            valueParam = evt.currentTarget.valueParam;  
+            matchupId = evt.currentTarget.matchupId;
+            startTime = evt.currentTarget.startTime;
+            new_bet.innerHTML = nameParam;
+            document.getElementById("bets-listed").appendChild(new_bet);
+            submitParam = betType+"_"+nameParam+"_"+valueParam+"_"+startTime;
+            bets_arr[bets] = submitParam;
+            bets = bets + 1;
+            bet_1_W = Number(bet_1_W) * (1+Number(valueParam));
+            oddTypeForLock = league_req+"_"+betType;
+            var to_add_cant = blocked_bets[oddTypeForLock];
+            for (const item of to_add_cant) {
+                cant_pick.push(item+"_"+matchupId);
+            }
+            lockCantPick();
+            document.getElementById("place-bet-submit").disabled=true;
+        }
+        
+        function lockCantPick(){
+            for (const selection of cant_pick) {
+                document.getElementById(selection).innerHTML = "XXX";
+            }
+        }
+        
+        var prospective_payout = 0;
+        var wager_amt = 0;
+        function calcPayout(){
+            document.getElementById("place-bet").style.display = 'block';
+            wager_amt = document.getElementById("wager-typed").value;
+            prospective_payout = Number(wager_amt)*Number(bet_1_W);
+            prospective_payout = Math.round(prospective_payout * 100) / 100;
+            MIC_wager_amt = Number(wager_amt)/100;
+            MIC_prospective_payout = Math.round(prospective_payout) / 100;
+            document.getElementById("bet-payout").innerHTML = wager_amt+" point bet pays "+prospective_payout+" points";
+            if (MIC_prospective_payout<100){
+                document.getElementById("MIC-text").innerHTML = "Make it count? $"+MIC_wager_amt+" to win $"+MIC_prospective_payout+" ";
+            }
+            else {
+                document.getElementById("MIC-text").innerHTML = "Make it count payout exceeded";
+                document.getElementById("make-it-count").style.display = 'none';
+            }
+            if (bets<10){
+                document.getElementById("place-bet-submit").disabled=false;
+            }
+            else{
+                document.getElementById("bet-payout").innerHTML = "Max Bet Quantity Exceeded";
+            }        
+        }
+        
+        var blocked_bets = {
+          "NHL_ML": ["NHL_ML_1","NHL_ML_2","NHL_PL_1","NHL_PL_2"],
+          "NHL_OU": ["NHL_OU_1","NHL_OU_2"],
+          "NHL_PL": ["NHL_ML_1","NHL_ML_2","NHL_PL_1","NHL_PL_2"],
+        };
+    </script>
+    
+    <script>
+    window.addEventListener("load", function() {
+        var b_form = document.getElementById('bet-form');
+        b_form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            document.getElementById("place-bet-submit").disabled=true;
+            const data = new FormData(b_form);
+            var currentdate = new Date(); 
+            var timestamp = Math.floor(new Date().getTime() / 1000);
+            data.append("Name", curr_user);
+            data.append("Timestamp", timestamp);
+            data.append("Wager", wager_amt);
+            data.append("Wins", prospective_payout);
+            var balance_type = data.get("BalanceType");
+            data.append("Bet(s)", bets_arr);
+            if ((balance_type=="Granted" && wager_amt>=granted_balance_num)||(balance_type=="Earned" && wager_amt>=earned_balance_num)){
+                document.getElementById("balance-error").innerHTML = "Insufficient Balance"
+                document.getElementById("place-bet-submit").disabled=false;
+            }
+            else{
+                const action = e.target.action;
+                fetch(action, {
+                    method: 'POST',
+                    body: data,
+                })
+                .then(() => {
+                    var r = confirm("Bet Submitted Successfully! Press OK to reload page");
+                    if (r == true){
+                        window.location.reload();
+                    }
+                })
+            }    
+        });
+    });
+    </script>
+    
+    <script>
+        var is_logged_in = localStorage.getItem("logged-in");
+        var curr_user = localStorage.getItem("user");
+        document.getElementById("user-note").innerHTML = curr_user;
+        if(!is_logged_in){
+            window.location.replace("index.html");
+        }
+        function logout(){
+            localStorage.clear();
+            window.location.replace("index.html");
+        }
+    </script>
+
+    <script>
+        if (window.innerWidth < 766) {
+            document.getElementById("nav").style.display = "none";
+        }
+        function myFunction() {
+            var x = document.getElementById("nav");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
+    </script>
+
+    <script>
+        var past_week_1 = true;
+        if (!past_week_1) {
+            document.getElementById("last-picks").style.display = "none";
+        }
+    </script>
+</html>

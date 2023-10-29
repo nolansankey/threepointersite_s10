@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<head>
+	<title>
+		How to get selected value in
+		dropdown list using JavaScript?
+	</title>
+</head>
+
+<body>
+	<h1 style="color: green">
+		GeeksforGeeks
+	</h1>
+	<b>
+		How to get selected value in dropdown
+		list using JavaScript?
+	</b>
+	<p> Select one from the given options:
+		<select name="league-select" id="league-select">
+			<option value="NHL">NHL</option>
+            <option value="NFL">NFL</option>
+            <option value="NCAAFB">NCAAFB</option>
+            <option value="NBA">NBA</option>
+            <option value="MLB">MLB</option>
+		</select>
+	</p>
+
+
+	<p> The value of the option selected is:
+		<span class="output"></span>
+	</p>
+
+
+	<button onclick="getOption()"> Check option </button>
+    
+	
+	<script type="text/javascript">
+        
+    
+        
+	function getOption() {
+        league_req = document.getElementById("league-select").value;
+		document.querySelector('.output').textContent = league_req;
+	}
+	</script>
+</body>
+</html>
+
+<script>
+    const responsesSheetLink = "https://sheets.googleapis.com/v4/spreadsheets/1KxdOrYqK66Jv8Eise2JsgHf9wb0PpId5MdczF1CnSRM/values/Responses/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
+    responses_data_fetch();
+    
+    async function responses_data_fetch(){
+        let responses_data = await fetch(responsesSheetLink)    
+          .then((response) => response.json());
+        var curr_user = localStorage.getItem("user");
+        var has_picked = false;
+        for (let i = 1; i < responses_data.values.length; i++) {
+            player = responses_data.values[i][1]
+            if (player==curr_user){
+                has_picked = true;
+                q1_pick = responses_data.values[i][2];
+                q2_pick = responses_data.values[i][3];
+                q3_pick = responses_data.values[i][4];
+            }
+        }
+        if (has_picked){
+            document.getElementById("completed_q1_pick").innerHTML = "Your Pick: "+q1_pick;
+            document.getElementById("completed_q2_pick").innerHTML = "Your Pick: "+q2_pick;
+            document.getElementById("completed_q3_pick").innerHTML = "Your Pick: "+q3_pick;
+        
+            document.getElementById("pick-status").innerHTML = "Your picks today are submitted";
+            document.getElementById('yet-to-pick').style.display = 'none'; 
+            document.getElementById('already-picked').style.display = 'block'; 
+        }
+        else {
+            document.getElementById("pick-status").innerHTML = "You have yet to pick today";
+            document.getElementById('yet-to-pick').style.display = 'block'; 
+            document.getElementById('already-picked').style.display = 'none'; 
+        }
+    }
+</script>
+
+<script>
+    window.addEventListener("load", function() {
+        var p_form = document.getElementById('picks-form');
+        p_form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            document.getElementById("pick-submit").disabled=true;
+            const data = new FormData(p_form);
+            var currentdate = new Date(); 
+            var timestamp = Math.floor(new Date().getTime() / 1000);
+            data.append("Name", curr_user);
+            data.append("Timestamp", timestamp);
+            q1_input = data.get("Q1");
+            q2_input = data.get("Q2");
+            q3_input = data.get("Q3");
+            const action = e.target.action;
+            fetch(action, {
+                method: 'POST',
+                body: data,
+            })
+            .then(() => {
+                var r = confirm("Picks Submitted Successfully! Press OK to reload page");
+                if (r == true){
+                    localStorage.setItem("picked "+today, true);
+                    localStorage.setItem("Q1 "+today, q1_input);
+                    localStorage.setItem("Q2 "+today, q2_input);
+                    localStorage.setItem("Q3 "+today, q3_input);
+                    window.location.reload();
+                }
+            })
+        });
+    });
+</script>
+
+
+
+<script>
+    const questionsSheetLink = "https://sheets.googleapis.com/v4/spreadsheets/1KxdOrYqK66Jv8Eise2JsgHf9wb0PpId5MdczF1CnSRM/values/Upcoming Questions/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
+    let q1_fetch = "Question Error 2";
+    let q2_fetch = "Question Error 2";
+    let q3_fetch = "Question Error 2";
+    var right_now = Date.now();
+    let east_datetime_str = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+    let date_east = new Date(east_datetime_str);
+    questions_data_fetch();
+    
+    async function questions_data_fetch(){
+        let sheet_data = await fetch(questionsSheetLink)    
+          .then((response) => response.json());
+        q1_fetch = sheet_data.values[29][3];
+        q2_fetch = sheet_data.values[30][3];
+        q3_fetch = sheet_data.values[31][3];
+        document.getElementById("q1_text").innerHTML = "Q1: "+q1_fetch;
+        document.getElementById("q2_text").innerHTML = "Q2: "+q2_fetch;
+        document.getElementById("q3_text").innerHTML = "Q3: "+q3_fetch;
+        document.getElementById("q1_ap_text").innerHTML = "Q1: "+q1_fetch;
+        document.getElementById("q2_ap_text").innerHTML = "Q2: "+q2_fetch;
+        document.getElementById("q3_ap_text").innerHTML = "Q3: "+q3_fetch;
+        
+        q1_link_fetch = sheet_data.values[29][4];
+        q2_link_fetch = sheet_data.values[30][4];
+        q3_link_fetch = sheet_data.values[31][4];
+        document.getElementById("q1_link_1").setAttribute("href",q1_link_fetch);
+        document.getElementById("q1_link_1").setAttribute("target","_blank");
+        document.getElementById("q1_link_1").removeAttribute("onclick");
+        document.getElementById("q2_link_1").setAttribute("href",q2_link_fetch);
+        document.getElementById("q2_link_1").setAttribute("target","_blank");
+        document.getElementById("q2_link_1").removeAttribute("onclick");
+        document.getElementById("q3_link_1").setAttribute("href",q3_link_fetch);
+        document.getElementById("q3_link_1").setAttribute("target","_blank");
+        document.getElementById("q3_link_1").removeAttribute("onclick");
+        document.getElementById("q1_link_2").setAttribute("href",q1_link_fetch);
+        document.getElementById("q1_link_2").setAttribute("target","_blank");
+        document.getElementById("q1_link_2").removeAttribute("onclick");
+        document.getElementById("q2_link_2").setAttribute("href",q2_link_fetch);
+        document.getElementById("q2_link_2").setAttribute("target","_blank");
+        document.getElementById("q2_link_2").removeAttribute("onclick");
+        document.getElementById("q3_link_2").setAttribute("href",q3_link_fetch);
+        document.getElementById("q3_link_2").setAttribute("target","_blank");
+        document.getElementById("q3_link_2").removeAttribute("onclick");
+        
+        q1_time_fetch = sheet_data.values[29][2];
+        q1_time_fetch_num = Date.parse(q1_time_fetch);
+        if(date_east >= q1_time_fetch_num){
+            document.getElementById("q1_yes").setAttribute("value","late");
+            document.getElementById("q1_yes").setAttribute("checked","chedked");
+            document.getElementById("q1_yes_label").innerHTML = "LATE ("+q1_time_fetch+" Eastern)";
+            document.getElementById("q1_no").style.display = 'none';
+            document.getElementById("q1_no_label").style.display = 'none';
+            document.getElementById("q1_opt-out").style.display = 'none';
+            document.getElementById("q1_opt-out_txt").style.display = 'none';
+        }
+        q2_time_fetch = sheet_data.values[30][2];
+        q2_time_fetch_num = Date.parse(q2_time_fetch);
+        if(date_east >= q2_time_fetch_num){
+            document.getElementById("q2_yes").setAttribute("value","late");
+            document.getElementById("q2_yes").setAttribute("checked","chedked");
+            document.getElementById("q2_yes_label").innerHTML = "LATE ("+q2_time_fetch+" Eastern)";
+            document.getElementById("q2_no").style.display = 'none';
+            document.getElementById("q2_no_label").style.display = 'none';
+            document.getElementById("q2_opt-out").style.display = 'none';
+            document.getElementById("q2_opt-out_txt").style.display = 'none';
+        }
+        q3_time_fetch = sheet_data.values[31][2];
+        q3_time_fetch_num = Date.parse(q3_time_fetch);
+        if(date_east >= q3_time_fetch_num){
+            document.getElementById("q3_yes").setAttribute("value","late");
+            document.getElementById("q3_yes").setAttribute("checked","chedked");
+            document.getElementById("q3_yes_label").innerHTML = "LATE ("+q3_time_fetch+" Eastern)";
+            document.getElementById("q3_no").style.display = 'none';
+            document.getElementById("q3_no_label").style.display = 'none';
+            document.getElementById("q3_opt-out").style.display = 'none';
+            document.getElementById("q3_opt-out_txt").style.display = 'none';
+        }
+    }
+
+</script>
+
+<script>
+    const scoresSheetLink = "https://sheets.googleapis.com/v4/spreadsheets/1KxdOrYqK66Jv8Eise2JsgHf9wb0PpId5MdczF1CnSRM/values/Scores/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
+    let score_item = "Scores Error 2";
+    scores_data_fetch();
+    
+    async function scores_data_fetch(){
+        let scores_data = await fetch(scoresSheetLink)    
+          .then((response) => response.json());
+        var num_payers = 43;
+        var table = document.getElementById("scores_table");
+        var curr_user = localStorage.getItem("user");
+        for (let i = 0; i < num_payers; i++) {
+            var player = scores_data.values[4+i][5];
+            var row_add = i+1;
+            if (player==curr_user){
+                var row_add = i+1;
+            }
+            var row = table.insertRow(row_add);
+            var cell1 = row.insertCell(0);
+            cell1.innerHTML = player;
+            var cell2 = row.insertCell(1);
+            cell2.innerHTML = scores_data.values[4+i][6];
+            var cell3 = row.insertCell(2);
+            cell3.innerHTML = scores_data.values[4+i][12];
+            if (player==curr_user){
+                cell1.classList.add("user-cell");
+                cell2.classList.add("user-cell");
+                cell3.classList.add("user-cell");
+            }
+            if (scores_data.values[4+i][10]==1){
+                cell2.classList.add("green_border");
+            }      
+        }
+    }   
+    
+</script>
+
+<script>
+    const thisWeekSheetLink = "https://sheets.googleapis.com/v4/spreadsheets/1KxdOrYqK66Jv8Eise2JsgHf9wb0PpId5MdczF1CnSRM/values/This Week's Picks/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
+    this_week_data_fetch();
+    
+    async function this_week_data_fetch(){
+        
+        let this_picks_data = await fetch(thisWeekSheetLink)    
+          .then((response) => response.json());
+        var num_players = 36;
+        var curr_user = localStorage.getItem("user");
+        for (let i = 0; i < num_players; i++) {
+            var player = this_picks_data.values[3][5+i*3];
+            if (player==curr_user){
+                if (this_picks_data.values[2][5+i*3]>0){
+                    document.getElementById('q1_opt-out').style.display = 'none';
+                    document.getElementById('q2_opt-out').style.display = 'none';
+                    document.getElementById('q3_opt-out').style.display = 'none';
+                    document.getElementById('q1_opt-out_txt').style.display = 'none';
+                    document.getElementById('q2_opt-out_txt').style.display = 'none';
+                    document.getElementById('q3_opt-out_txt').style.display = 'none';
+                }
+            }    
+        }
+    }   
+</script>

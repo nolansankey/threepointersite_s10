@@ -26,7 +26,7 @@
     <nav class="navbar navbar-fixed-top" role="navigation">
       <div class="header">
         <div class="header-text">
-          <h1><strong>3PL</strong></h1>
+          <h1><strong>SBL</strong></h1>
           <p id="user-note"></p>
         </div>
       </div>
@@ -38,11 +38,9 @@
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul id="nav" class="nav navbar-nav">
           <li><a><strong>Home</strong></a></li>
-          <li><a href="picks.html">Full Picks</a></li>
-          <li><a href="stats.html">Statistics</a></li>
-          <li><a href="payouts.html">Payouts</a></li>
+          <li><a href="thebook.html">The Book</a></li>
+          <li><a href="league.html">League</a></li>
           <li><a href="rules.html">Rules</a></li>
-          <li><a href="history.html">History</a></li>
           <li><a href="javascript:void(0);" onclick="logout()">Logout</a></li>
         </ul>
       </div>
@@ -52,91 +50,73 @@
     <section id="welcome" class="welcome-section">
         <h1 id="user-intro"></h1>
         <br>
-        <h3 id="pick-status"></h3>
-    </section>
-        
-    <!-- Todays Picks Section -->
-    <section id="todays-picks" class="todays-picks-section">
-      <h1 id="test_id">Today's Questions</h1>
-      <div id="yet-to-pick">
-        <form method="POST" action="https://script.google.com/macros/s/AKfycbzIRNQF07zK8UapaBv4sCwSlRGsgVMhIx-vv12Ne6-FRBXLUr21wBQlrS6j3-C9s-y3GQ/exec" id="picks-form">
-          
-          <h3 id="q1_text">Question Error</h3>
-          <h4><a id="q1_link_1" href="javascript:void(0);" onclick="link_error()" rel="noopener noreferrer">(ESPN page)</a></h4>
-          <br>
-          <input type="radio" id="q1_yes" name="Q1" value="yes">
-          <label id="q1_yes_label" for="q1_yes">YES</label><br>
-          <input type="radio" id="q1_no" name="Q1" value="no">
-          <label id="q1_no_label" for="q1_no">NO</label><br>
-          <input type="radio" id="q1_opt-out" name="Q1" value="opt out">
-          <label id="q1_opt-out_txt" for="q1_opt-out">OPT OUT</label><br><br>
-              
-          <h3 id="q2_text">Question Error</h3>
-          <h4><a id="q2_link_1" href="javascript:void(0);" onclick="link_error()" rel="noopener noreferrer">(ESPN page)</a></h4>
-          <input type="radio" id="q2_yes" name="Q2" value="yes">
-          <label id="q2_yes_label" for="q2_yes">YES</label><br>
-          <input type="radio" id="q2_no" name="Q2" value="no">
-          <label id="q2_no_label" for="q2_no">NO</label><br>
-          <input type="radio" id="q2_opt-out" name="Q2" value="opt out">
-          <label id="q2_opt-out_txt" for="q2_opt-out">OPT OUT</label><br><br>
-          
-          <h3 id="q3_text">Question Error</h3>
-          <h4><a id="q3_link_1" href="javascript:void(0);" onclick="link_error()" rel="noopener noreferrer">(ESPN page)</a></h4>
-          <br>
-          <input type="radio" id="q3_yes" name="Q3" value="yes">
-          <label id="q3_yes_label" for="q3_yes">YES</label><br>
-          <input type="radio" id="q3_no" name="Q3" value="no">
-          <label id="q3_no_label" for="q3_no">NO</label><br>
-          <input type="radio" id="q3_opt-out" name="Q3" value="opt out">
-          <label id="q3_opt-out_txt" for="q3_opt-out">OPT OUT</label><br><br>
-          
-          <input type="submit" id="pick-submit" value="Submit">
-        </form>
-      </div>
-      <div id="already-picked">
-        <h3 id="q1_ap_text">Question Error</h3>
-        <h4><a id="q1_link_2" href="javascript:void(0);" onclick="link_error()" rel="noopener noreferrer">(ESPN page)</a></h4>
-        <br>
-        <p id="completed_q1_pick"></p>
-        <br>
-        <br>
-              
-        <h3 id="q2_ap_text">Question Error</h3>
-        <h4><a id="q2_link_2" href="javascript:void(0);" onclick="link_error()" rel="noopener noreferrer">(ESPN page)</a></h4>
-        <br>
-        <p id="completed_q2_pick"></p>
-        <br>
-        <br>
-         
-        <h3 id="q3_ap_text">Question Error</h3>
-        <h4><a id="q3_link_2" href="javascript:void(0);" onclick="link_error()" rel="noopener noreferrer">(ESPN page)</a></h4>
-        <br>
-        <p id="completed_q3_pick"></p>
-        <br>
-        <br>
-        <form method="POST" action="https://script.google.com/macros/s/AKfycbzIRNQF07zK8UapaBv4sCwSlRGsgVMhIx-vv12Ne6-FRBXLUr21wBQlrS6j3-C9s-y3GQ/exec" id="clear-form">
-          <input type="submit" id="clear-pick-submit" name="clear" value="Clear My Picks and Resubmit">
-        </form>
-      </div>
     </section>
       
-
-    <!-- Scoreboard Section -->
-    <section id="scores-section" class="scores-section">
-      <h1 class="shrink-text-lg">This Week's Scores</h1>
-      <p id="scores_text"></p>
-      <table id="scores_table">
+    <!-- Matchup Section -->
+        <section id="matchup" class="matchup-section">
+            <table id="matchup-table">
+                <thead>
+                    <tr>
+                      <th>You</th>
+                      <th></th>
+                      <th id="opponent">Opponent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="User_EB"></td>
+                        <td><strong>Earned Balance</strong></td>
+                        <td id="Opp_EB"></td>
+                    </tr>
+                    <tr>
+                        <td id="User_GB"></td>
+                        <td><strong>Granted Balance</strong></td>
+                        <td id="Opp_GB"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+        </section>
+      
+    <!-- Place Bets Section -->
+    <section id="place-bets-link" class="place-bets-link-section">
+      <a href="thebook.html">
+        <button>Place Bets!</button>
+        <p id="test"></p>
+      </a>
+    </section>
+      
+    <!-- Open Bets -->
+    <section id="open-bets" class="open-bets-section">
+      <h3 id="open-bets-intro">Open Bets</h3>
+      <table id="open-bets-table">
         <thead>
-          <tr>
-            <th scope="col" class="wide_col">Name</th>
-            <th scope="col" class="wide_col">Score</th>
-            <th scope="col" class="wide_col">Change</th>
-          </tr>
+            <tr>
+              <th>Bet</th>
+              <th>Wager</th>
+              <th>To Win</th>
+              <th>Lock Time (East)</th>
+              <th>Cash Out (-10%)</th>
+            </tr>
         </thead>
         <tbody></tbody>
       </table>
     </section>
-         
+      
+    <!-- Settled Bets -->
+    <section id="settled-bets" class="settled-bets-section">
+      <h3 id="settled-bets-intro">Settled Bets</h3>
+      <table id="settled-bets-table">
+        <thead>
+            <tr>
+              <th>Bet</th>
+              <th>Wager</th>
+              <th>Earnings</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
   </body>
 </html>
 
@@ -166,245 +146,178 @@
     }
 </script>
 
+<!-- NEED: link to balances + matchup, link to active and settled bets-->
+
 <script>
-    const responsesSheetLink = "https://sheets.googleapis.com/v4/spreadsheets/1KxdOrYqK66Jv8Eise2JsgHf9wb0PpId5MdczF1CnSRM/values/Responses/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
-    responses_data_fetch();
-    
-    async function responses_data_fetch(){
-        let responses_data = await fetch(responsesSheetLink)    
-          .then((response) => response.json());
-        var curr_user = localStorage.getItem("user");
-        var has_picked = false;
-        for (let i = 1; i < responses_data.values.length; i++) {
-            player = responses_data.values[i][1]
-            if (player==curr_user){
-                has_picked = true;
-                q1_pick = responses_data.values[i][2];
-                q2_pick = responses_data.values[i][3];
-                q3_pick = responses_data.values[i][4];
+        
+    const balanceLink = "https://sheets.googleapis.com/v4/spreadsheets/18P7-NHQmX6N4_lQLKEbpSZp1SbEKF0hQItTcCXvLSCw/values/Balance Scoresheet/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
+    balance_fetch();
+
+    var users_start_idx = 7;
+    var names_idx = 1;
+    var opp_name_idx = 2;
+    var user_granted_balance_idx = 4;
+    var user_earned_balance_idx = 5;
+    var user_in_play_idx = 6;
+    var opp_granted_balance_idx = 8;
+    var opp_earned_balance_idx = 9;
+
+     async function balance_fetch() {
+        let balance_data = await fetch(balanceLink)    
+            .then((response) => response.json());
+        var num_players = balance_data.values[1][1];
+        var user_idx = -3;
+        for (let i = 0; i < num_players; i++) {
+            if(balance_data.values[users_start_idx+i][names_idx]==curr_user){
+                user_idx = i;
             }
         }
-        if (has_picked){
-            document.getElementById("completed_q1_pick").innerHTML = "Your Pick: "+q1_pick;
-            document.getElementById("completed_q2_pick").innerHTML = "Your Pick: "+q2_pick;
-            document.getElementById("completed_q3_pick").innerHTML = "Your Pick: "+q3_pick;
+        if (user_idx>-1){
+            var opponent = balance_data.values[users_start_idx+user_idx][opp_name_idx];
+            var opp_idx = -3;
+            for (let i = 0; i < num_players; i++) {
+                if(balance_data.values[users_start_idx+i][names_idx]==opponent){
+                    opp_idx = i;
+                }
+            }
+            if (opp_idx>-1){
+                var user_earned_balance = balance_data.values[users_start_idx+user_idx][user_earned_balance_idx];
+                document.getElementById("User_EB").innerHTML = user_earned_balance;
+                var user_granted_balance = balance_data.values[users_start_idx+user_idx][user_granted_balance_idx];
+                document.getElementById("User_GB").innerHTML = user_granted_balance;
+                var opp_earned_balance = balance_data.values[users_start_idx+opp_idx][opp_earned_balance_idx];
+                document.getElementById("Opp_EB").innerHTML = opp_earned_balance;
+                var opp_granted_balance = balance_data.values[users_start_idx+opp_idx][opp_granted_balance_idx];
+                document.getElementById("Opp_GB").innerHTML = opp_granted_balance;
+                document.getElementById("opponent").innerHTML = opponent;
+            }     
+        }
+     }
+    
+</script>
+
+<script>
         
-            document.getElementById("pick-status").innerHTML = "Your picks today are submitted";
-            document.getElementById('yet-to-pick').style.display = 'none'; 
-            document.getElementById('already-picked').style.display = 'block'; 
-        }
-        else {
-            document.getElementById("pick-status").innerHTML = "You have yet to pick today";
-            document.getElementById('yet-to-pick').style.display = 'block'; 
-            document.getElementById('already-picked').style.display = 'none'; 
-        }
-    }
-</script>
-
-<script>
-    window.addEventListener("load", function() {
-        var p_form = document.getElementById('picks-form');
-        p_form.addEventListener("submit", function(e) {
-            e.preventDefault();
-            document.getElementById("pick-submit").disabled=true;
-            const data = new FormData(p_form);
-            var currentdate = new Date(); 
-            var timestamp = Math.floor(new Date().getTime() / 1000);
-            data.append("Name", curr_user);
-            data.append("Timestamp", timestamp);
-            q1_input = data.get("Q1");
-            q2_input = data.get("Q2");
-            q3_input = data.get("Q3");
-            const action = e.target.action;
-            fetch(action, {
-                method: 'POST',
-                body: data,
-            })
-            .then(() => {
-                var r = confirm("Picks Submitted Successfully! Press OK to reload page");
-                if (r == true){
-                    localStorage.setItem("picked "+today, true);
-                    localStorage.setItem("Q1 "+today, q1_input);
-                    localStorage.setItem("Q2 "+today, q2_input);
-                    localStorage.setItem("Q3 "+today, q3_input);
-                    window.location.reload();
-                }
-            })
-        });
-    });
-</script>
-
-<script>
-    window.addEventListener("load", function() {
-        var clear_form = document.getElementById('clear-form');
-        clear_form.addEventListener("submit", function(e) {
-            e.preventDefault();
-            document.getElementById("clear-pick-submit").disabled=true;
-            const data = new FormData(clear_form);
-            data.append("Name", curr_user);
-            data.append("Clear", true);
-            const action = e.target.action;
-            fetch(action, {
-                method: 'POST',
-                body: data,
-            })
-            .then(() => {
-                var r = confirm("Picks Cleared! Press OK to reload page and resubmit");
-                if (r == true){
-                    localStorage.setItem("picked "+today, false);
-                    localStorage.setItem("Q1 "+today, null);
-                    localStorage.setItem("Q2 "+today, null);
-                    localStorage.setItem("Q3 "+today, null);
-                    window.location.reload();
-                }
-            })
-        });
-    });
-</script>
-
-<script>
-    const questionsSheetLink = "https://sheets.googleapis.com/v4/spreadsheets/1KxdOrYqK66Jv8Eise2JsgHf9wb0PpId5MdczF1CnSRM/values/Upcoming Questions/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
-    let q1_fetch = "Question Error 2";
-    let q2_fetch = "Question Error 2";
-    let q3_fetch = "Question Error 2";
+    const betsLink = "https://sheets.googleapis.com/v4/spreadsheets/18P7-NHQmX6N4_lQLKEbpSZp1SbEKF0hQItTcCXvLSCw/values/Active Bets Helper/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
+    bet_fetch();
+    
     var right_now = Date.now();
     let east_datetime_str = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
     let date_east = new Date(east_datetime_str);
-    questions_data_fetch();
-    
-    async function questions_data_fetch(){
-        let sheet_data = await fetch(questionsSheetLink)    
-          .then((response) => response.json());
-        q1_fetch = sheet_data.values[29][3];
-        q2_fetch = sheet_data.values[30][3];
-        q3_fetch = sheet_data.values[31][3];
-        document.getElementById("q1_text").innerHTML = "Q1: "+q1_fetch;
-        document.getElementById("q2_text").innerHTML = "Q2: "+q2_fetch;
-        document.getElementById("q3_text").innerHTML = "Q3: "+q3_fetch;
-        document.getElementById("q1_ap_text").innerHTML = "Q1: "+q1_fetch;
-        document.getElementById("q2_ap_text").innerHTML = "Q2: "+q2_fetch;
-        document.getElementById("q3_ap_text").innerHTML = "Q3: "+q3_fetch;
-        
-        q1_link_fetch = sheet_data.values[29][4];
-        q2_link_fetch = sheet_data.values[30][4];
-        q3_link_fetch = sheet_data.values[31][4];
-        document.getElementById("q1_link_1").setAttribute("href",q1_link_fetch);
-        document.getElementById("q1_link_1").setAttribute("target","_blank");
-        document.getElementById("q1_link_1").removeAttribute("onclick");
-        document.getElementById("q2_link_1").setAttribute("href",q2_link_fetch);
-        document.getElementById("q2_link_1").setAttribute("target","_blank");
-        document.getElementById("q2_link_1").removeAttribute("onclick");
-        document.getElementById("q3_link_1").setAttribute("href",q3_link_fetch);
-        document.getElementById("q3_link_1").setAttribute("target","_blank");
-        document.getElementById("q3_link_1").removeAttribute("onclick");
-        document.getElementById("q1_link_2").setAttribute("href",q1_link_fetch);
-        document.getElementById("q1_link_2").setAttribute("target","_blank");
-        document.getElementById("q1_link_2").removeAttribute("onclick");
-        document.getElementById("q2_link_2").setAttribute("href",q2_link_fetch);
-        document.getElementById("q2_link_2").setAttribute("target","_blank");
-        document.getElementById("q2_link_2").removeAttribute("onclick");
-        document.getElementById("q3_link_2").setAttribute("href",q3_link_fetch);
-        document.getElementById("q3_link_2").setAttribute("target","_blank");
-        document.getElementById("q3_link_2").removeAttribute("onclick");
-        
-        q1_time_fetch = sheet_data.values[29][2];
-        q1_time_fetch_num = Date.parse(q1_time_fetch);
-        if(date_east >= q1_time_fetch_num){
-            document.getElementById("q1_yes").setAttribute("value","late");
-            document.getElementById("q1_yes").setAttribute("checked","chedked");
-            document.getElementById("q1_yes_label").innerHTML = "LATE ("+q1_time_fetch+" Eastern)";
-            document.getElementById("q1_no").style.display = 'none';
-            document.getElementById("q1_no_label").style.display = 'none';
-            document.getElementById("q1_opt-out").style.display = 'none';
-            document.getElementById("q1_opt-out_txt").style.display = 'none';
-        }
-        q2_time_fetch = sheet_data.values[30][2];
-        q2_time_fetch_num = Date.parse(q2_time_fetch);
-        if(date_east >= q2_time_fetch_num){
-            document.getElementById("q2_yes").setAttribute("value","late");
-            document.getElementById("q2_yes").setAttribute("checked","chedked");
-            document.getElementById("q2_yes_label").innerHTML = "LATE ("+q2_time_fetch+" Eastern)";
-            document.getElementById("q2_no").style.display = 'none';
-            document.getElementById("q2_no_label").style.display = 'none';
-            document.getElementById("q2_opt-out").style.display = 'none';
-            document.getElementById("q2_opt-out_txt").style.display = 'none';
-        }
-        q3_time_fetch = sheet_data.values[31][2];
-        q3_time_fetch_num = Date.parse(q3_time_fetch);
-        if(date_east >= q3_time_fetch_num){
-            document.getElementById("q3_yes").setAttribute("value","late");
-            document.getElementById("q3_yes").setAttribute("checked","chedked");
-            document.getElementById("q3_yes_label").innerHTML = "LATE ("+q3_time_fetch+" Eastern)";
-            document.getElementById("q3_no").style.display = 'none';
-            document.getElementById("q3_no_label").style.display = 'none';
-            document.getElementById("q3_opt-out").style.display = 'none';
-            document.getElementById("q3_opt-out_txt").style.display = 'none';
-        }
-    }
 
-</script>
+    var bet_start_row = 3;
+    var bet_num_col = 0;
+    var name_col = 2;
+    var wager_col = 3;
+    var to_win_col = 4;
+    var lock_col = 11;
+    var bet_disp_col = 13;
 
-<script>
-    const scoresSheetLink = "https://sheets.googleapis.com/v4/spreadsheets/1KxdOrYqK66Jv8Eise2JsgHf9wb0PpId5MdczF1CnSRM/values/Scores/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
-    let score_item = "Scores Error 2";
-    scores_data_fetch();
-    
-    async function scores_data_fetch(){
-        let scores_data = await fetch(scoresSheetLink)    
-          .then((response) => response.json());
-        var num_payers = 43;
-        var table = document.getElementById("scores_table");
-        var curr_user = localStorage.getItem("user");
-        for (let i = 0; i < num_payers; i++) {
-            var player = scores_data.values[4+i][5];
-            var row_add = i+1;
-            if (player==curr_user){
-                var row_add = i+1;
-            }
-            var row = table.insertRow(row_add);
-            var cell1 = row.insertCell(0);
-            cell1.innerHTML = player;
-            var cell2 = row.insertCell(1);
-            cell2.innerHTML = scores_data.values[4+i][6];
-            var cell3 = row.insertCell(2);
-            cell3.innerHTML = scores_data.values[4+i][12];
-            if (player==curr_user){
-                cell1.classList.add("user-cell");
-                cell2.classList.add("user-cell");
-                cell3.classList.add("user-cell");
-            }
-            if (scores_data.values[4+i][10]==1){
-                cell2.classList.add("green_border");
-            }      
-        }
-    }   
-    
-</script>
-
-<script>
-    const thisWeekSheetLink = "https://sheets.googleapis.com/v4/spreadsheets/1KxdOrYqK66Jv8Eise2JsgHf9wb0PpId5MdczF1CnSRM/values/This Week's Picks/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
-    this_week_data_fetch();
-    
-    async function this_week_data_fetch(){
-        
-        let this_picks_data = await fetch(thisWeekSheetLink)    
-          .then((response) => response.json());
-        var num_players = 36;
-        var curr_user = localStorage.getItem("user");
-        for (let i = 0; i < num_players; i++) {
-            var player = this_picks_data.values[3][5+i*3];
-            if (player==curr_user){
-                if (this_picks_data.values[2][5+i*3]>0){
-                    document.getElementById('q1_opt-out').style.display = 'none';
-                    document.getElementById('q2_opt-out').style.display = 'none';
-                    document.getElementById('q3_opt-out').style.display = 'none';
-                    document.getElementById('q1_opt-out_txt').style.display = 'none';
-                    document.getElementById('q2_opt-out_txt').style.display = 'none';
-                    document.getElementById('q3_opt-out_txt').style.display = 'none';
+     async function bet_fetch() {
+        let bet_data = await fetch(betsLink)    
+            .then((response) => response.json());
+        var num_bets = bet_data.values[0][0];
+        var bets_count = 0;
+        var table = document.getElementById("open-bets-table");
+        for (let i = 0; i < num_bets; i++) {
+            bet_row = i+bet_start_row;
+            var user_name = bet_data.values[bet_row][name_col];
+            if (user_name==curr_user){
+                bets_count = bets_count+1;
+                var bet_id = bet_data.values[bet_row][bet_num_col];
+                var row = table.insertRow(bets_count);
+                var matchups_cell = row.insertCell(0);
+                matchups_cell.innerHTML = bet_data.values[bet_row][bet_disp_col];
+                var wager_cell = row.insertCell(1);
+                wager_cell.innerHTML = bet_data.values[bet_row][wager_col];
+                var to_win_cell = row.insertCell(2);
+                to_win_cell.innerHTML = bet_data.values[bet_row][to_win_col];
+                var lock_cell = row.insertCell(3);
+                var time_fetch = bet_data.values[bet_row][lock_col];
+                lock_cell.innerHTML = time_fetch;
+                var cash_out_cell = row.insertCell(4);
+                if(date_east >= time_fetch){
+                    cash_out_cell.innerHTML = "Live";
                 }
-            }    
+                else {
+                    const newButton = document.createElement('button');
+                    newButton.textContent = "Cash Out";
+                    newButton.addEventListener("click", cashOut, false);
+                    newButton.betId = bet_id;
+                    newButton.balanceType = "To Build";
+                    cash_out_cell.appendChild(newButton);
+                }    
+            }
         }
-    }   
+         if (bets_count==0){
+             document.getElementById("open-bets-table").style.display = "none";
+             document.getElementById("open-bets-intro").innerHTML = "No Open Bets";
+         }
+     }
+    
+    function cashOut(evt){
+      event.preventDefault();
+      const data = new FormData();
+      var r = confirm("Cashed out bet will cost 10%. Press OK to continue");
+        if (r == true){
+          data.append("CashOut",true);
+          betId = evt.currentTarget.betId;
+          data.append("BetId",betId);
+          const action = "https://script.google.com/macros/s/AKfycbxZ7cZOEBALz4jEcPOGMCAy1G8HAO9CGwTb8kjdOSiZvbyke6ihX1QPQAFF11ab1sE-SQ/exec";
+          fetch(action, {
+            method: 'POST',
+            body: data,
+          })
+          .then(() => {
+            var r = confirm("Bet cashed out. Press OK to reload page");
+            if (r == true){
+                window.location.reload();
+            }
+          })
+        }
+      }
+</script>
+
+
+<script>
+        
+    const sBetsLink = "https://sheets.googleapis.com/v4/spreadsheets/18P7-NHQmX6N4_lQLKEbpSZp1SbEKF0hQItTcCXvLSCw/values/Settled Bets Helper/?key=AIzaSyBDAMBO6YH4isbUYYgjK1NF9LwGiur6z-Y";
+    s_bet_fetch();
+    
+    var s_bet_start_row = 3;
+    var s_bet_num_col = 0;
+    var s_name_col = 2;
+    var s_wager_col = 3;
+    var s_earning_col = 10;
+    var s_bet_disp_col = 15;
+
+     async function s_bet_fetch() {
+        let bet_data = await fetch(sBetsLink)    
+            .then((response) => response.json());
+        var num_bets = bet_data.values[0][0];
+        var bets_count = 0;
+        var table = document.getElementById("settled-bets-table");
+        for (let i = 0; i < num_bets; i++) {
+            bet_row = i+s_bet_start_row;
+            var user_name = bet_data.values[bet_row][s_name_col];
+            if (user_name==curr_user){
+                bets_count = bets_count+1;
+                var bet_id = bet_data.values[bet_row][s_bet_num_col];
+                var row = table.insertRow(bets_count);
+                var matchups_cell = row.insertCell(0);
+                matchups_cell.innerHTML = bet_data.values[bet_row][s_bet_disp_col];
+                var wager_cell = row.insertCell(1);
+                wager_cell.innerHTML = bet_data.values[bet_row][s_wager_col];
+                var earn_cell = row.insertCell(2);
+                earn_cell.innerHTML = bet_data.values[bet_row][s_earning_col];               
+            }
+        }
+         if (bets_count==0){
+             document.getElementById("settled-bets-table").style.display = "none";
+             document.getElementById("settled-bets-intro").innerHTML = "No Settled Bets";
+         }
+     }   
+    
 </script>
 
 <script>
